@@ -24,6 +24,14 @@ class User < ApplicationRecord
 
   pg_search_scope :search, against: %i(name email about location level_of_availability)
 
+  def jwt_payload
+    { email: email }
+  end
+  
+  def on_jwt_dispatch(token, payload)
+    JwtDenylist.where("exp < ?", Date.today).destroy_all
+  end
+
   def volunteered_for_project?(project)
     self.volunteered_projects.where(id: project.id).exists?
   end
