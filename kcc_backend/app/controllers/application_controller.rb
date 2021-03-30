@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-  protect_from_forgery prepend: true, with: :exception
+  #protect_from_forgery prepend: true, with: :exception
 
   before_action :set_theme_view_if_present
   before_action :show_global_announcements
