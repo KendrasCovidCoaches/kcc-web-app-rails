@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
+  respond_to :json
   # before_action :configure_sign_up_params, only: [ :create ]
   before_action :configure_account_update_params, only: [ :update ]
   before_action :set_filters_open, only: :index
@@ -25,9 +26,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def create
-    super
+    build_resource(sign_up_params)
+    resource.save
+    render_resource(resource)
     track_event 'User registration complete' if resource.persisted?
-    UserMailer.with(user: @user).welcome_email.deliver_now
+    #UserMailer.with(user: @user).welcome_email.deliver_now
   end
 
   # GET /resource/edit
