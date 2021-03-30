@@ -23,6 +23,7 @@ gem 'redis', '~> 4.0'
 gem 'grape'
 gem 'rack-cors'
 gem 'grape-active_model_serializers'
+gem 'devise-jwt'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
