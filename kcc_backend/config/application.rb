@@ -22,7 +22,7 @@ if Rails.env.development? || Rails.env.test?
   Dotenv::Railtie.load
 end
 
-module CovidVolunteers
+module KCC_backend
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0
@@ -31,6 +31,14 @@ module CovidVolunteers
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
+
+    # Config cross-origin
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins '*'
+        resource '*', headers: :any, methods: [:get, :post, :put, :delete, :options]
+      end
+    end
 
     # Don't add field_with_errors class.
     config.action_view.field_error_proc = Proc.new do |html_tag, instance|
