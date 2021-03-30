@@ -24,7 +24,7 @@ Rails.application.routes.draw do
   # get '/admin/edit' => 'admin#edit_site', as: 'edit_site'
   # post '/admin/edit' => 'admin#edit_site'
 
-  devise_for :users, 
+  devise_for :users, defaults: { format: :json }, 
   path: '',
   path_names: {
     sign_in: 'login',

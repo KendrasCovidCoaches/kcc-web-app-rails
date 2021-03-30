@@ -24,6 +24,12 @@ class User < ApplicationRecord
 
   pg_search_scope :search, against: %i(name email about location level_of_availability)
 
+  def generate_jwt
+    JWT.encode({ id: id,
+                exp: 60.days.from_now.to_i },
+               ENV['DEVISE_JWT_SECRET_KEY'])
+  end
+
   def jwt_payload
     { email: email }
   end
