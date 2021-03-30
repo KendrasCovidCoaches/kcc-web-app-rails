@@ -1,10 +1,31 @@
-class ApplicationController < ActionController::Base
+class ApplicationController < ActionController::API
   protect_from_forgery prepend: true, with: :exception
 
   before_action :set_theme_view_if_present
   before_action :show_global_announcements
   before_action :set_bg_gray
   around_action :switch_locale
+
+  def render_resource(resource)
+    if resource.errors.empty?
+      render json: resource
+    else
+      validation_error(resource)
+    end
+  end
+
+  def validation_error(resource)
+    render json: {
+      errors: [
+        {
+          status: '400',
+          title: 'Bad Request',
+          detail: resource.errors,
+          code: '100'
+        }
+      ]
+    }, status: :bad_request
+  end
 
   def ensure_admin
     redirect_to root_path if !current_user || !current_user.is_admin?
