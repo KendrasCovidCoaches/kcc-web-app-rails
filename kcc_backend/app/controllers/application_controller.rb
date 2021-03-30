@@ -4,6 +4,7 @@ class ApplicationController < ActionController::API
   before_action :set_theme_view_if_present
   before_action :show_global_announcements
   before_action :set_bg_gray
+  before_action :authenticate_user
   around_action :switch_locale
 
   def render_resource(resource)
@@ -26,6 +27,7 @@ class ApplicationController < ActionController::API
       ]
     }, status: :bad_request
   end
+  
 
   def ensure_admin
     redirect_to root_path if !current_user || !current_user.is_admin?
@@ -114,6 +116,32 @@ class ApplicationController < ActionController::API
     def set_theme_view_if_present
       prepend_view_path "#{Rails.root.join('theme', 'views')}"
 
+    end
+
+    def authenticate_user
+      if request.headers['Authorization'].present?
+        authenticate_or_request_with_http_token do |token|
+          begin
+            jwt_payload = JWT.decode(token, ENV['DEVISE_JWT_SECRET_KEY']).first
+  
+            @current_user_id = jwt_payload['id']
+          rescue JWT::ExpiredSignature, JWT::VerificationError, JWT::DecodeError
+            head :unauthorized
+          end
+        end
+      end
+    end
+
+    def authenticate_user!(options = {})
+      head :unauthorized unless signed_in?
+    end
+  
+    def current_user
+      @current_user ||= super || User.find(@current_user_id)
+    end
+  
+    def signed_in?
+      @current_user_id.present?
     end
 
     def hydrate_project_categories
