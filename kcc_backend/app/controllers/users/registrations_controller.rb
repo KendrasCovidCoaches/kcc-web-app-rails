@@ -3,6 +3,7 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   respond_to :json
   # before_action :configure_sign_up_params, only: [ :create ]
+  before_action :authenticate_user!
   before_action :configure_account_update_params, only: [ :update ]
   before_action :set_filters_open, only: :index
   before_action :set_bg_white, only: :index

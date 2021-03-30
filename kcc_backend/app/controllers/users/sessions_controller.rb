@@ -1,6 +1,8 @@
 class SessionsController < Devise::SessionsController
     respond_to :json
 
+    before_action :authenticate_user!
+
     def create
       user = User.find_by_email(sign_in_params[:email])
   

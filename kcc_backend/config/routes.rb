@@ -7,20 +7,20 @@ Rails.application.routes.draw do
     end
   end
 
-  root 'home#index'
+  #root 'home#index'
 
-  get '/about', to: 'home#about', as: 'about'
-  get '/podcast', to: 'home#podcast', as: 'podcast'
+  # get '/about', to: 'home#about', as: 'about'
+  # get '/podcast', to: 'home#podcast', as: 'podcast'
 
-  get '/guidelines', to: 'projects#guidelines', as: 'guidelines'
+  # get '/guidelines', to: 'projects#guidelines', as: 'guidelines'
 
-  get '/data/projects',   to: 'data#projects'
-  get '/data/users',      to: 'data#users'
-  get '/data/volunteers', to: 'data#volunteers'
+  # get '/data/projects',   to: 'data#projects'
+  # get '/data/users',      to: 'data#users'
+  # get '/data/volunteers', to: 'data#volunteers'
 
   # get '/reports', to: "reports#index"
 
-  get '/admin' => 'reports#index'
+  # get '/admin' => 'reports#index'
   # get '/admin/edit' => 'admin#edit_site', as: 'edit_site'
   # post '/admin/edit' => 'admin#edit_site'
 
